@@ -43,5 +43,8 @@ export class Login {
 
   }
 
+  logout() {
+    this.authService.logout();
+  }
  
 }
