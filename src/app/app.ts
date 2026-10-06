@@ -1,7 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import {Login} from './login/login'; 
+import { Login } from './login/login';
+
 
 
 @Component({
