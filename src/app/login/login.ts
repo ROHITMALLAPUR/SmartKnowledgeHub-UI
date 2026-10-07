@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth';
 import { LoginRequest } from '../Models/login-request';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'; 
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -17,7 +18,7 @@ export class Login {
   });
 
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
 
   }
 
@@ -35,6 +36,7 @@ export class Login {
       next: response => {
         console.log('Login successful:', response);
         localStorage.setItem('token',response.token)  
+        this.router.navigate(['/dashboard']);
       },
      error: error => {
        console.error('Login failed:', error);
