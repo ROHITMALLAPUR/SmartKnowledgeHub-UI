@@ -21,4 +21,8 @@ export class Dashboard {
 
   }
 
+  openDocuments(): void{
+    this.router.navigate(['/documents']);
+  }
+
 }

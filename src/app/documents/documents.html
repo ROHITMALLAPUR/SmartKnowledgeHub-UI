@@ -1,0 +1,38 @@
+
+<h2>My Documents</h2>
+
+@if (isLoading()) {
+<p>Loading documents...</p>
+}
+
+@if (!isLoading() && errorMessage()) {
+<p>{{ errorMessage() }}</p>
+}
+
+@if (!isLoading() && !errorMessage() && documents().length === 0) {
+<p>No documents found.</p>
+}
+
+@if (!isLoading() && !errorMessage() && documents().length > 0) {
+<p>Total documents: {{ documents().length }}</p>
+
+  @for (document of documents(); track document.id) {
+<article class="document-card">
+  <h3>{{ document.title }}</h3>
+
+  <p><strong>File:</strong> {{ document.fileName }}</p>
+
+  <p><strong>ID:</strong> {{ document.id }}</p>
+
+  <p>
+    <strong>Summary:</strong>
+    {{ document.summary || 'No summary available yet' }}
+  </p>
+
+  <p>
+    <strong>Uploaded:</strong>
+    {{ document.createdAt | date:'medium' }}
+  </p>
+</article>
+  }
+}
