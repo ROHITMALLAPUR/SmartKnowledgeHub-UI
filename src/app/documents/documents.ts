@@ -2,9 +2,10 @@ import { Component,OnInit,signal } from '@angular/core';
 import { DocumentResponse } from '../document.model';
 import { DocumentService } from '../document';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe,FormsModule],
   selector: 'app-documents',
   styleUrl: './documents.css',
   templateUrl: './documents.html',
@@ -14,6 +15,8 @@ export class Documents implements OnInit {
   documents = signal<DocumentResponse[]>([]);
   errorMessage = signal('');
   isLoading = signal(true);
+  selectedFile: File | null = null;
+  documentTitle = '';
 
   constructor(private documentService: DocumentService) {
     console.log('DOCUMENTS COMPONENT CREATED');
@@ -46,5 +49,16 @@ export class Documents implements OnInit {
         this.isLoading.set(false);
       }
     });
+  }
+
+  onFileSelected(event: Event): void {
+
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+
+    console.log('Selected file:', this.selectedFile);
+
   }
 }

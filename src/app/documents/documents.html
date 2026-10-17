@@ -1,5 +1,31 @@
 
+
 <h2>My Documents</h2>
+
+<div class="upload-section">
+
+  <h3>Upload Document</h3>
+
+  <input type="text"
+         placeholder="Enter document title"
+         [(ngModel)]="documentTitle" />
+
+  <p>Entered title: {{ documentTitle }}</p>
+
+  <input type="file"
+         (change)="onFileSelected($event)" />
+
+  <button type="button">
+    Upload Document
+  </button>
+
+</div>
+
+<hr>
+
+<p>Total documents: {{ documents().length }}</p>
+
+
 
 @if (isLoading()) {
 <p>Loading documents...</p>
