@@ -61,4 +61,36 @@ export class Documents implements OnInit {
     console.log('Selected file:', this.selectedFile);
 
   }
+
+  uploadDocument(): void {
+
+    if (!this.selectedFile) {
+      this.errorMessage.set('Please select a file.');
+      return;
+    }
+
+    if (!this.documentTitle.trim()) {
+      this.errorMessage.set('Please enter a document title.');
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('Title', this.documentTitle);
+    formData.append('File', this.selectedFile);
+
+    console.log('Uploading title:', this.documentTitle);
+    console.log('Uploading file:', this.selectedFile);
+
+    this.documentService.uploadDocument(formData).subscribe({
+      next: (response) => {
+        console.log('Upload successful:', response);
+        this.loadDocuments();
+      },
+      error: (error) => {
+        console.error('Upload failed:', error);
+        this.errorMessage.set('Unable to upload document.');
+      }
+    });
+  }
 }
