@@ -3,6 +3,7 @@ import { DocumentResponse } from '../document.model';
 import { DocumentService } from '../document';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { single } from 'rxjs';
 
 @Component({
   imports: [DatePipe,FormsModule],
@@ -16,6 +17,7 @@ export class Documents implements OnInit {
   errorMessage = signal('');
   successMessage = signal('');
   isLoading = signal(true);
+  isUploading = signal(false);
   selectedFile: File | null = null;
   documentTitle = '';
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -113,6 +115,8 @@ export class Documents implements OnInit {
     console.log('Uploading title:', this.documentTitle);
     console.log('Uploading file:', this.selectedFile);
 
+
+    this.isUploading.set(true);
     this.documentService.uploadDocument(formData).subscribe({
       next: (response) => {
         console.log('Upload successful:', response);
@@ -123,11 +127,13 @@ export class Documents implements OnInit {
         this.selectedFile = null;
         this.fileInput.nativeElement.value = '';
 
+        this.isUploading.set(false);
         this.loadDocuments();
       },
       error: (error) => {
         console.error('Upload failed:', error);
         this.errorMessage.set('Unable to upload document.');
+        this.isUploading.set(true);
       }
     });
   }

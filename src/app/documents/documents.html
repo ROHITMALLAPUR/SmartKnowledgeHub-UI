@@ -16,8 +16,8 @@
          #fileInput
          (change)="onFileSelected($event)" />
 
-  <button type="button" (click)="uploadDocument()">
-    Upload Document
+  <button type="button" (click)="uploadDocument()" [disabled]="isUploading()">
+    {{ isUploading() ? 'Uploading...' : 'Upload Document' }}
   </button>
 
   @if(successMessage()) {
