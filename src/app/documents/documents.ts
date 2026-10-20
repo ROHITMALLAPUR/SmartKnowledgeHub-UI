@@ -14,6 +14,7 @@ export class Documents implements OnInit {
 
   documents = signal<DocumentResponse[]>([]);
   errorMessage = signal('');
+  successMessage = signal('');
   isLoading = signal(true);
   selectedFile: File | null = null;
   documentTitle = '';
@@ -85,6 +86,12 @@ export class Documents implements OnInit {
     this.documentService.uploadDocument(formData).subscribe({
       next: (response) => {
         console.log('Upload successful:', response);
+        this.successMessage.set('Document uploaded successfully.');
+        this.errorMessage.set('');
+
+        this.documentTitle = '';
+        this.selectedFile = null;
+
         this.loadDocuments();
       },
       error: (error) => {

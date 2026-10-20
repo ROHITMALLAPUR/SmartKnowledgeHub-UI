@@ -19,6 +19,14 @@
     Upload Document
   </button>
 
+  @if(successMessage()) {
+  <p>{{ successMessage() }}</p>
+  }
+
+  @if(errorMessage()) {
+  <p>{{ errorMessage() }}</p>
+  }
+
 </div>
 
 <hr>
