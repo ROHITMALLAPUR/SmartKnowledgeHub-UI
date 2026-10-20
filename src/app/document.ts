@@ -21,4 +21,8 @@ export class DocumentService {
   uploadDocument(formData: FormData): Observable<DocumentResponse> {
     return this.http.post<DocumentResponse>(this.apiUrl, formData);
   }
+
+  getDocumentById(id: number): Observable<DocumentResponse> {
+    return this.http.get<DocumentResponse>(`${this.apiUrl}/${id}`);
+  }
 }

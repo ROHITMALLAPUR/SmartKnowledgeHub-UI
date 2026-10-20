@@ -22,6 +22,10 @@ export class Documents implements OnInit {
   documentTitle = '';
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
+  selectedDocument = signal<DocumentResponse | null>(null);
+  isDetailsLoading = signal(false);
+  detailsError = signal('');
+
   constructor(private documentService: DocumentService) {
     console.log('DOCUMENTS COMPONENT CREATED');
   }
@@ -137,4 +141,34 @@ export class Documents implements OnInit {
       }
     });
   }
+
+
+  viewDocument(id: number): void {
+    console.log('View Details clicked. Document ID:', id);
+
+    this.selectedDocument.set(null);
+    this.isDetailsLoading.set(true);
+    this.detailsError.set('');
+
+    this.documentService.getDocumentById(id).subscribe({
+      next: (response) => {
+        console.log('Document details received:', response);
+
+        this.selectedDocument.set(response);
+
+        console.log('Selected document signal:', this.selectedDocument());
+
+
+        this.isDetailsLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading document details:', error);
+        console.log('HTTP status:', error.status);
+
+        this.detailsError.set('Unable to load document details.');
+        this.isDetailsLoading.set(false);
+      }
+    });
+  }
+
 }

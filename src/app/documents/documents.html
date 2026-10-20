@@ -68,6 +68,43 @@
     <strong>Uploaded:</strong>
     {{ document.createdAt | date:'medium' }}
   </p>
+
+  <button type="button"
+          (click)="viewDocument(document.id)">
+    View Details
+  </button>
 </article>
   }
 }
+
+
+
+<hr>
+
+<section class="document-details">
+  <h2>Document Details</h2>
+
+ 
+
+  @if (isDetailsLoading()) {
+  <p>Loading document details...</p>
+  }
+
+  @if (detailsError()) {
+  <p>{{ detailsError() }}</p>
+  }
+
+  @if (selectedDocument(); as detail) {
+  <h3>{{ detail.title }}</h3>
+
+  <p><strong>Document ID:</strong> {{ detail.id }}</p>
+  <p><strong>Filename:</strong> {{ detail.fileName }}</p>
+  <p><strong>Uploaded By:</strong> {{ detail.uploadedBy }}</p>
+  <p><strong>Summary:</strong> {{ detail.summary || 'No summary available yet' }}</p>
+  <p><strong>Created:</strong> {{ detail.createdAt | date:'medium' }}</p>
+
+  @if (detail.updatedAt) {
+  <p><strong>Last Updated:</strong> {{ detail.updatedAt | date:'medium' }}</p>
+  }
+  }
+</section>
