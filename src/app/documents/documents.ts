@@ -1,4 +1,4 @@
-import { Component,OnInit,signal } from '@angular/core';
+import { Component, OnInit, signal, ElementRef, ViewChild, viewChild } from '@angular/core';
 import { DocumentResponse } from '../document.model';
 import { DocumentService } from '../document';
 import { DatePipe } from '@angular/common';
@@ -18,6 +18,7 @@ export class Documents implements OnInit {
   isLoading = signal(true);
   selectedFile: File | null = null;
   documentTitle = '';
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   constructor(private documentService: DocumentService) {
     console.log('DOCUMENTS COMPONENT CREATED');
@@ -75,6 +76,35 @@ export class Documents implements OnInit {
       return;
     }
 
+    if (this.documentTitle.trim().length > 200) {
+      this.errorMessage.set('Document title cannot exceed 200 characters.');
+      return;
+    }
+
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ];
+
+    if (!allowedTypes.includes(this.selectedFile.type)) {
+      this.errorMessage.set(
+        'Invalid file type. Please upload PDF, DOC, DOCX, or TXT files.'
+      );
+      return;
+    }
+
+    const maxFileSize = 10 * 1024 * 1024;
+
+    if (this.selectedFile.size > maxFileSize) {
+      this.errorMessage.set(
+        'File size cannot exceed 10 MB.'
+      );
+      return;
+    }
+
+
     const formData = new FormData();
 
     formData.append('Title', this.documentTitle);
@@ -91,6 +121,7 @@ export class Documents implements OnInit {
 
         this.documentTitle = '';
         this.selectedFile = null;
+        this.fileInput.nativeElement.value = '';
 
         this.loadDocuments();
       },
