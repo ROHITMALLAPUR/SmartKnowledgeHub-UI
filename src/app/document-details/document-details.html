@@ -1,0 +1,23 @@
+@if (isLoading()) {
+<p>Loading document details...</p>
+}
+
+@if (errorMessage()) {
+<p class="error-message">{{ errorMessage() }}</p>
+}
+
+@if (document(); as doc) {
+<article class="details-card">
+  <h3>{{ doc.title }}</h3>
+
+  <p><strong>Document ID:</strong> {{ doc.id }}</p>
+  <p><strong>File name:</strong> {{ doc.fileName }}</p>
+  <p><strong>Uploaded by:</strong> {{ doc.uploadedBy }}</p>
+  <p><strong>Summary:</strong> {{ doc.summary || 'No summary available yet' }}</p>
+  <p><strong>Created:</strong> {{ doc.createdAt | date:'medium' }}</p>
+
+  @if (doc.updatedAt) {
+  <p><strong>Last updated:</strong> {{ doc.updatedAt | date:'medium' }}</p>
+  }
+</article>
+}

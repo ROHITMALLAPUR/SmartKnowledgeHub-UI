@@ -4,9 +4,10 @@ import { DocumentService } from '../document';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { single } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [DatePipe,FormsModule],
+  imports: [DatePipe,FormsModule,RouterLink],
   selector: 'app-documents',
   styleUrl: './documents.css',
   templateUrl: './documents.html',
