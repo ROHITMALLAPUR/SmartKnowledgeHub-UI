@@ -1,10 +1,166 @@
-.document-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
+
+/* Main page */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f3f6fb;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f2937;
 }
+
+h2 {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 24px 16px;
+  font-size: 30px;
+  color: #111827;
+}
+
+h3 {
+  color: #1f2937;
+}
+
+/* Upload form */
+.upload-section {
+  max-width: 952px;
+  margin: 0 auto 28px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+  .upload-section h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .upload-section input[type="text"] {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  .upload-section input[type="file"] {
+    display: block;
+    max-width: 100%;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .upload-section input:focus {
+    outline: 2px solid #bfdbfe;
+    border-color: #2563eb;
+  }
+
+  .upload-section p {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+/* Buttons */
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+  button:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+/* Document list */
+.document-card {
+  box-sizing: border-box;
+  max-width: 1000px;
+  margin: 16px auto;
+  padding: 22px 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+  .document-card:hover {
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
+  }
 
   .document-card h3 {
     margin-top: 0;
+    margin-bottom: 14px;
+    font-size: 19px;
+    overflow-wrap: anywhere;
   }
+
+  .document-card p {
+    margin: 10px 0;
+    color: #4b5563;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .document-card strong {
+    color: #374151;
+  }
+
+  .document-card button {
+    margin-top: 10px;
+  }
+
+/* Loading and status messages */
+p {
+  line-height: 1.5;
+}
+
+.upload-section p:empty {
+  display: none;
+}
+
+/* Horizontal rules */
+hr {
+  max-width: 1000px;
+  margin: 28px auto;
+  border: 0;
+  border-top: 1px solid #dbe2ea;
+}
+
+/* Responsive layout */
+@media (max-width: 700px) {
+  h2 {
+    padding: 22px 16px 14px;
+    font-size: 25px;
+  }
+
+  .upload-section,
+  .document-card {
+    margin: 14px 16px;
+    padding: 18px;
+  }
+
+    .upload-section input[type="text"] {
+      max-width: 100%;
+    }
+}
