@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Login } from './login/login';
+import { Navbar } from './shared/navbar/navbar';
 
 
 
 @Component({
-  imports: [RouterOutlet,Login],
+  imports: [RouterOutlet,Login,Navbar],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
