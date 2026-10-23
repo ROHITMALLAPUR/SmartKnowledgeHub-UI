@@ -3,7 +3,8 @@ import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { authGuard } from './RouteGuard/auth.guard';
 import { Documents } from './documents/documents';
-import {DocumentDetails} from './document-details/document-details'; 
+import { DocumentDetails } from './document-details/document-details';
+import { DocumentEdit } from './document-edit/document-edit';
 
 export const routes: Routes = [
 
@@ -24,7 +25,13 @@ export const routes: Routes = [
   },
   {
     path: 'documents/:id',
-    component: DocumentDetails
+    component: DocumentDetails,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'documents/edit/:id',
+    component: DocumentEdit,
+    canActivate: [authGuard]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }

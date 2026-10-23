@@ -25,4 +25,10 @@ export class DocumentService {
   getDocumentById(id: number): Observable<DocumentResponse> {
     return this.http.get<DocumentResponse>(`${this.apiUrl}/${id}`);
   }
+
+
+  updateDocument(id: number, data: { title: string }) {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
+  }
+
 }

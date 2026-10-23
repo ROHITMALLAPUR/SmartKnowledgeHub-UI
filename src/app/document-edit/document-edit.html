@@ -1,1 +1,69 @@
-<p>document-edit works!</p>
+<div class="edit-container">
+
+  <a routerLink="/documents" class="back-link">
+    ← Back to Documents
+  </a>
+
+  <h2>Edit Document</h2>
+
+  @if (isLoading()) {
+
+  <p>Loading document...</p>
+
+  }
+
+  @if (errorMessage()) {
+
+  <p class="error-message">
+    {{ errorMessage() }}
+  </p>
+
+  }
+
+  @if (!isLoading() && document(); as doc) {
+
+  <div class="edit-card">
+
+    <p>
+      <strong>Document ID:</strong>
+      {{ doc.id }}
+    </p>
+
+    <p>
+      <strong>File:</strong>
+      {{ doc.fileName }}
+    </p>
+
+    <label for="title">
+      Document Title
+    </label>
+
+    <input id="title"
+           type="text"
+           [(ngModel)]="title"
+           maxlength="200"
+           placeholder="Enter document title" />
+
+    <p>
+      Current title:
+      {{ title }}
+    </p>
+
+    <button type="button"
+            (click)="saveChanges()"
+            [disabled]="isSaving()">
+      {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+    </button>
+
+    @if (successMessage()) {
+    <p class="success-message">{{ successMessage() }}</p>
+    }
+
+    @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+    }
+  </div>
+
+  }
+
+</div>
