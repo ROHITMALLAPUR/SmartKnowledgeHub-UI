@@ -2,6 +2,13 @@
 
 <h2>My Documents</h2>
 
+<div class="search-section">
+  <input type="text"
+         placeholder="Search documents..."
+         [ngModel]="searchTerm()"
+         (ngModelChange)="searchTerm.set($event)" />
+</div>
+
 <div class="upload-section">
 
   <h3>Upload Document</h3>
@@ -32,7 +39,12 @@
 
 <hr>
 
-<p>Total documents: {{ documents().length }}</p>
+<p>
+  Total documents: {{ documents().length }}
+  @if (searchTerm()) {
+  | Showing: {{ filteredDocuments().length }}
+  }
+</p>
 
 
 
@@ -48,10 +60,16 @@
 <p>No documents found.</p>
 }
 
-@if (!isLoading() && !errorMessage() && documents().length > 0) {
-<p>Total documents: {{ documents().length }}</p>
+@if (!isLoading() && !errorMessage()
+    && documents().length > 0
+    && filteredDocuments().length === 0) {
+<p>No documents match your search.</p>
+}
 
-  @for (document of documents(); track document.id) {
+@if (!isLoading() && !errorMessage() && documents().length > 0) {
+
+
+  @for (document of filteredDocuments(); track document.id) {
 <article class="document-card">
   <h3>{{ document.title }}</h3>
 
@@ -76,6 +94,11 @@
 
   <button [routerLink]="['/documents/edit', document.id]">
     Edit
+  </button>
+
+  <button type="button"
+          (click)="deleteDocument(document.id, document.title)">
+    Delete
   </button>
 
 </article>

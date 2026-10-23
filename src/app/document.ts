@@ -31,4 +31,8 @@ export class DocumentService {
     return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
+  deleteDocument(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
 }

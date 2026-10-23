@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, ElementRef, ViewChild, viewChild } from '@angular/core';
+import { Component, OnInit, signal, ElementRef, ViewChild, viewChild,computed } from '@angular/core';
 import { DocumentResponse } from '../document.model';
 import { DocumentService } from '../document';
 import { DatePipe } from '@angular/common';
@@ -17,6 +17,7 @@ export class Documents implements OnInit {
   documents = signal<DocumentResponse[]>([]);
   errorMessage = signal('');
   successMessage = signal('');
+  searchTerm = signal('');
   isLoading = signal(true);
   isUploading = signal(false);
   selectedFile: File | null = null;
@@ -171,5 +172,39 @@ export class Documents implements OnInit {
       }
     });
   }
+
+  deleteDocument(id: number, title: string): void {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${title}"?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.documentService.deleteDocument(id).subscribe({
+      next: () => {
+        this.successMessage.set('Document deleted successfully.');
+        this.loadDocuments();
+      },
+      error: (error) => {
+        console.error('Error deleting document:', error);
+        this.errorMessage.set('Unable to delete document.');
+      }
+    });
+  }
+
+  filteredDocuments = computed(() => {
+    const search = this.searchTerm().trim().toLowerCase();
+
+    if (!search) {
+      return this.documents();
+    }
+
+    return this.documents().filter(document =>
+      document.title.toLowerCase().includes(search) ||
+      document.fileName.toLowerCase().includes(search)
+    );
+  });
 
 }
