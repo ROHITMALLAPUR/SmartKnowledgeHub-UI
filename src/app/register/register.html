@@ -1,0 +1,83 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Create Account</h2>
+    <p>Register to access Smart Knowledge Hub</p>
+
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username"
+               name="username"
+               type="text"
+               [(ngModel)]="username"
+               required
+               maxlength="100"
+               #usernameField="ngModel"
+               placeholder="Enter username" />
+
+        @if (usernameField.invalid && usernameField.touched) {
+        <small class="error-message">
+          Username is required and must be 100 characters or fewer.
+        </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email"
+               name="email"
+               type="email"
+               [(ngModel)]="email"
+               required
+               email
+               maxlength="100"
+               #emailField="ngModel"
+               placeholder="Enter email" />
+
+        @if (emailField.invalid && emailField.touched) {
+        <small class="error-message">
+          Enter a valid email address.
+        </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password"
+               name="password"
+               type="password"
+               [(ngModel)]="password"
+               required
+               minlength="6"
+               #passwordField="ngModel"
+               placeholder="At least 6 characters" />
+
+        @if (passwordField.invalid && passwordField.touched) {
+        <small class="error-message">
+          Password must contain at least 6 characters.
+        </small>
+        }
+      </div>
+
+      @if (errorMessage()) {
+      <p class="error-message">{{ errorMessage() }}</p>
+      }
+
+      @if (successMessage()) {
+      <p class="success-message">{{ successMessage() }}</p>
+      }
+
+      <button type="submit"
+              [disabled]="registerForm.invalid || isRegistering()">
+        {{ isRegistering() ? 'Registering...' : 'Register' }}
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Login here</a>
+    </p>
+  </div>
+</div>

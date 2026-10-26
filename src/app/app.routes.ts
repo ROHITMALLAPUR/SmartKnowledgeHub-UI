@@ -5,12 +5,18 @@ import { authGuard } from './RouteGuard/auth.guard';
 import { Documents } from './documents/documents';
 import { DocumentDetails } from './document-details/document-details';
 import { DocumentEdit } from './document-edit/document-edit';
+import { Register } from './register/register';
 
 export const routes: Routes = [
 
   {
     path: 'login',
     component: Login
+  },
+
+  {
+    path: 'register',
+    component:Register
   },
 
   {

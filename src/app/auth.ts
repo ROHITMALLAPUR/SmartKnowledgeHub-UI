@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginRequest, } from './Models/login-request';
 import {LoginResponse } from './Models/login-response';
 import { Observable } from 'rxjs';
+import { RegisterRequest } from './Models/register-requst';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,15 @@ export class AuthService {
    localStorage.removeItem('token');
    
 
-  } 
+  }
+
+  register(registerData: RegisterRequest): Observable<string> {
+    return this.http.post(
+      `${this.apiUrl}/register`,
+      registerData,
+      { responseType: 'text' }
+    );
+  }
 
   
   
