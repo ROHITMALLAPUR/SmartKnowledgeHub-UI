@@ -1,21 +1,95 @@
 
+<div class="auth-page">
+  <div class="auth-card">
 
-<h2>Login</h2>
+    <div class="auth-heading">
+      <div class="auth-logo" aria-hidden="true">K</div>
+      <p class="auth-eyebrow">SMART KNOWLEDGE HUB</p>
+      <h2>Welcome back</h2>
+      <p class="auth-description">
+        Sign in to access your documents and knowledge.
+      </p>
+    </div>
 
-<form [formGroup]="loginForm" ] (ngSubmit)="login()">
-  <div>
+    @if (registrationMessage) {
+      <p class="success-message" role="status">
+        {{ registrationMessage }}
+      </p>
+    }
 
-    <label>Email:</label>
-    <input type="email" formControlName="email" />
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          [class.invalid-input]="loginForm.controls.email.touched && loginForm.controls.email.invalid"
+        />
+
+        @if (loginForm.controls.email.touched &&
+             loginForm.controls.email.errors?.['required']) {
+          <p class="error-message">Email is required.</p>
+        }
+
+        @if (loginForm.controls.email.touched &&
+             loginForm.controls.email.errors?.['email']) {
+          <p class="error-message">Please enter a valid email address.</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          [class.invalid-input]="loginForm.controls.password.touched && loginForm.controls.password.invalid"
+        />
+
+        @if (loginForm.controls.password.touched &&
+             loginForm.controls.password.errors?.['required']) {
+          <p class="error-message">Password is required.</p>
+        }
+
+        @if (loginForm.controls.password.touched &&
+             loginForm.controls.password.errors?.['minlength']) {
+          <p class="error-message">
+            Password must be at least 6 characters long.
+          </p>
+        }
+      </div>
+
+      @if (loginError) {
+        <p class="error-message form-error" role="alert">
+          {{ loginError }}
+        </p>
+      }
+
+      <button
+        class="primary-auth-button"
+        type="submit"
+        [disabled]="isLoggingIn">
+        {{ isLoggingIn ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      <button
+        class="secondary-auth-button"
+        type="button"
+        (click)="logout()">
+        Logout
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      <span>Secure access to your knowledge hub</span>
+    </div>
+
   </div>
-
-  <div>
-    <label>Password:</label>
-    <input type="password" formControlName="password" />
-  </div>
-
-  <button type="submit">Login</button>
-  <button type="button" (click)="logout()">
-    Logout
-  </button>
-</form>
+</div>

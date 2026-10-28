@@ -1,14 +1,134 @@
+```html
+<main class="dashboard-page">
+  <section class="dashboard-welcome">
+    <div class="welcome-content">
+      <span class="welcome-eyebrow">YOUR WORKSPACE</span>
 
+      <h1>Welcome to Smart Knowledge Hub</h1>
 
+      <p class="welcome-description">
+        Keep your documents organized, access your files easily, and manage
+        your knowledge in one place.
+      </p>
 
-<h2>Dashboard</h2>
+      <div class="welcome-actions">
+        <button type="button"
+                class="primary-button"
+                (click)="openDocuments()">
+          <span>View My Documents</span>
+          <span class="button-arrow" aria-hidden="true">→</span>
+        </button>
 
-<p>Welcome to Smart Knowledge Hub.</p>
+        <button type="button"
+                class="secondary-button"
+                (click)="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
 
-<button type="button" (click)="openDocuments()">
-  View My Documents
-</button>
+    <div class="welcome-illustration" aria-hidden="true">
+      <div class="illustration-glow"></div>
 
-<button type="button" (click)="logout()">
-  Logout
-</button>
+      <div class="document-illustration">
+        <div class="document-icon">K</div>
+        <div class="document-line document-line-long"></div>
+        <div class="document-line document-line-medium"></div>
+        <div class="document-line document-line-short"></div>
+
+        <div class="document-check">✓</div>
+      </div>
+
+      <div class="floating-card floating-card-top">
+        <span class="floating-icon">✓</span>
+        <span>Organized</span>
+      </div>
+
+      <div class="floating-card floating-card-bottom">
+        <span class="floating-icon">↗</span>
+        <span>Easy access</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-heading">
+      <div>
+        <h2>Get started</h2>
+        <p>Choose what you would like to do next.</p>
+      </div>
+    </div>
+
+    <div class="dashboard-cards">
+      <article class="dashboard-card documents-card">
+        <div class="card-icon documents-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"
+               width="25"
+               height="25"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="1.8"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <path d="M14 2v6h6"></path>
+            <path d="M8 13h8"></path>
+            <path d="M8 17h8"></path>
+          </svg>
+        </div>
+
+        <h3>My Documents</h3>
+
+        <p>
+          Browse your uploaded documents, open files, update titles, or remove
+          documents you no longer need.
+        </p>
+
+        <button type="button"
+                class="card-action"
+                (click)="openDocuments()">
+          Explore documents <span aria-hidden="true">→</span>
+        </button>
+      </article>
+
+      <article class="dashboard-card organization-card">
+        <div class="card-icon organization-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"
+               width="25"
+               height="25"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="1.8"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <path d="M8 7h8"></path>
+            <path d="M8 11h6"></path>
+          </svg>
+        </div>
+
+        <h3>Your knowledge, organized</h3>
+
+        <p>
+          Keep your files together in one workspace so you can find and access
+          your information when you need it.
+        </p>
+
+        <button type="button"
+                class="card-action"
+                (click)="openDocuments()">
+          Manage your files <span aria-hidden="true">→</span>
+        </button>
+      </article>
+    </div>
+  </section>
+
+  <footer class="dashboard-footer">
+    <span class="footer-mark">K</span>
+    <span>Smart Knowledge Hub</span>
+    <span class="footer-divider">·</span>
+    <span>Your knowledge, all in one place.</span>
+  </footer>
+</main>
+```

@@ -1,7 +1,15 @@
+
 <div class="register-container">
   <div class="register-card">
-    <h2>Create Account</h2>
-    <p>Register to access Smart Knowledge Hub</p>
+
+    <div class="register-heading">
+      <div class="register-logo" aria-hidden="true">K</div>
+      <p class="register-eyebrow">SMART KNOWLEDGE HUB</p>
+      <h2>Create your account</h2>
+      <p class="register-description">
+        Get started by creating your personal knowledge workspace.
+      </p>
+    </div>
 
     <form (ngSubmit)="onRegister()" #registerForm="ngForm">
 
@@ -14,7 +22,9 @@
                required
                maxlength="100"
                #usernameField="ngModel"
-               placeholder="Enter username" />
+               placeholder="Enter username"
+               autocomplete="username"
+               [class.invalid-input]="usernameField.invalid && usernameField.touched" />
 
         @if (usernameField.invalid && usernameField.touched) {
         <small class="error-message">
@@ -24,7 +34,7 @@
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">Email address</label>
         <input id="email"
                name="email"
                type="email"
@@ -33,7 +43,9 @@
                email
                maxlength="100"
                #emailField="ngModel"
-               placeholder="Enter email" />
+               placeholder="you@example.com"
+               autocomplete="email"
+               [class.invalid-input]="emailField.invalid && emailField.touched" />
 
         @if (emailField.invalid && emailField.touched) {
         <small class="error-message">
@@ -51,7 +63,9 @@
                required
                minlength="6"
                #passwordField="ngModel"
-               placeholder="At least 6 characters" />
+               placeholder="At least 6 characters"
+               autocomplete="new-password"
+               [class.invalid-input]="passwordField.invalid && passwordField.touched" />
 
         @if (passwordField.invalid && passwordField.touched) {
         <small class="error-message">
@@ -61,23 +75,29 @@
       </div>
 
       @if (errorMessage()) {
-      <p class="error-message">{{ errorMessage() }}</p>
+      <p class="form-error" role="alert">
+        {{ errorMessage() }}
+      </p>
       }
 
       @if (successMessage()) {
-      <p class="success-message">{{ successMessage() }}</p>
+      <p class="success-message" role="status">
+        {{ successMessage() }}
+      </p>
       }
 
-      <button type="submit"
+      <button class="register-button"
+              type="submit"
               [disabled]="registerForm.invalid || isRegistering()">
-        {{ isRegistering() ? 'Registering...' : 'Register' }}
+        {{ isRegistering() ? 'Creating account...' : 'Create account' }}
       </button>
 
     </form>
 
     <p class="login-link">
       Already have an account?
-      <a routerLink="/login">Login here</a>
+      <a routerLink="/login">Sign in</a>
     </p>
+
   </div>
 </div>

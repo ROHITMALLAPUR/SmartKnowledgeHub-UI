@@ -1,23 +1,143 @@
-@if (isLoading()) {
-<p>Loading document details...</p>
-}
 
-@if (errorMessage()) {
-<p class="error-message">{{ errorMessage() }}</p>
-}
+<div class="details-page">
+  <div class="page-header">
+    <a routerLink="/documents" class="back-link">
+      <span aria-hidden="true">←</span>
+      Back to Documents
+    </a>
 
-@if (document(); as doc) {
-<article class="details-card">
-  <h3>{{ doc.title }}</h3>
+    <span class="page-eyebrow">YOUR LIBRARY</span>
+    <h1>Document Details</h1>
+    <p class="page-description">
+      View your document information and access the original file.
+    </p>
+  </div>
 
-  <p><strong>Document ID:</strong> {{ doc.id }}</p>
-  <p><strong>File name:</strong> {{ doc.fileName }}</p>
-  <p><strong>Uploaded by:</strong> {{ doc.uploadedBy }}</p>
-  <p><strong>Summary:</strong> {{ doc.summary || 'No summary available yet' }}</p>
-  <p><strong>Created:</strong> {{ doc.createdAt | date:'medium' }}</p>
-
-  @if (doc.updatedAt) {
-  <p><strong>Last updated:</strong> {{ doc.updatedAt | date:'medium' }}</p>
+  @if (isLoading()) {
+  <section class="state-card" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading document details...</p>
+  </section>
   }
-</article>
-}
+
+  @if (errorMessage()) {
+  <div class="message error-message" role="alert">
+    <span class="message-icon" aria-hidden="true">!</span>
+    <p>{{ errorMessage() }}</p>
+  </div>
+  }
+
+  @if (document(); as doc) {
+  <article class="details-card">
+    <div class="document-heading">
+      <div class="file-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 3.75h8l4 4v12.5H6z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round" />
+          <path d="M14 3.75v4h4M9 12h6M9 15.5h6"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div class="document-heading-text">
+        <span class="section-label">DOCUMENT</span>
+        <h2>{{ doc.title }}</h2>
+        <p class="file-name">{{ doc.fileName }}</p>
+      </div>
+    </div>
+
+    <div class="details-divider"></div>
+
+    <section class="information-section">
+      <h3>Document information</h3>
+
+      <div class="information-grid">
+        <div class="information-item">
+          <span class="information-label">Document ID</span>
+          <span class="information-value">#{{ doc.id }}</span>
+        </div>
+
+        <div class="information-item">
+          <span class="information-label">Uploaded by</span>
+          <span class="information-value">{{ doc.uploadedBy }}</span>
+        </div>
+
+        <div class="information-item">
+          <span class="information-label">Created</span>
+          <span class="information-value">
+            {{ doc.createdAt | date:'medium' }}
+          </span>
+        </div>
+
+        <div class="information-item">
+          <span class="information-label">Last updated</span>
+          <span class="information-value">
+            {{ doc.updatedAt ? (doc.updatedAt | date:'medium') : 'Not updated' }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <div class="details-divider"></div>
+
+    <section class="summary-section">
+      <h3>Summary</h3>
+      <p class="summary-text">
+        {{ doc.summary || 'No summary available yet. A summary can be displayed here when summarization is implemented.' }}
+      </p>
+    </section>
+
+    <div class="details-divider"></div>
+
+    <section class="file-actions-section">
+      <div class="actions-heading">
+        <div>
+          <h3>Access your file</h3>
+          <p>Open the original document or save a copy to your device.</p>
+        </div>
+      </div>
+
+      <div class="file-actions">
+        <button type="button"
+                class="button button-primary"
+                (click)="viewFile()"
+                [disabled]="isFileLoading()">
+          @if (isFileLoading() && fileAction() === 'view') {
+          Opening...
+          } @else {
+          <span aria-hidden="true">↗</span>
+          View File
+          }
+        </button>
+
+        <button type="button"
+                class="button button-secondary"
+                (click)="downloadFile()"
+                [disabled]="isFileLoading()">
+          @if (isFileLoading() && fileAction() === 'download') {
+          Downloading...
+          } @else {
+          <span aria-hidden="true">↓</span>
+          Download File
+          }
+        </button>
+      </div>
+
+      @if (fileError()) {
+      <div class="message error-message file-error" role="alert">
+        <span class="message-icon" aria-hidden="true">!</span>
+        <p>{{ fileError() }}</p>
+      </div>
+      }
+    </section>
+  </article>
+  }
+
+  <p class="page-footer">
+    Smart Knowledge Hub · Keep your knowledge organized.
+  </p>
+</div>

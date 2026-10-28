@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth';
 import { LoginRequest } from '../Models/login-request';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -10,44 +15,76 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
   templateUrl: './login.html',
 })
-export class Login {
+export class Login implements OnInit {
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6)
+    ])
   });
 
+  registrationMessage = '';
+  loginError = '';
+  isLoggingIn = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
+  ngOnInit(): void {
+    const registered =
+      this.route.snapshot.queryParamMap.get('registered');
+
+    if (registered === 'true') {
+      this.registrationMessage =
+        'Registration successful. Please login.';
+    }
   }
 
-  login() {
+  login(): void {
+    this.loginError = '';
+
+    // Stop if form validation fails
     if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
-    const loginDta: LoginRequest = {
+    const loginData: LoginRequest = {
       email: this.loginForm.value.email ?? '',
       password: this.loginForm.value.password ?? ''
     };
 
-    this.authService.login(loginDta).subscribe({
+    this.isLoggingIn = true;
+
+    this.authService.login(loginData).subscribe({
       next: response => {
-        console.log('Login successful:', response);
-        localStorage.setItem('token',response.token)  
+        this.isLoggingIn = false;
+
+        localStorage.setItem('token', response.token);
+
         this.router.navigate(['/dashboard']);
       },
-     error: error => {
-       console.error('Login failed:', error);
-     }
-    });
 
+      error: error => {
+        console.error('Login failed:', error);
+
+        this.isLoggingIn = false;
+        this.loginError =
+          'Invalid email or password. Please try again.';
+      }
+    });
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
- 
 }

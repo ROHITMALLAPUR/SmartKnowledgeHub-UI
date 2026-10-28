@@ -1,69 +1,110 @@
-<div class="edit-container">
 
-  <a routerLink="/documents" class="back-link">
-    ← Back to Documents
-  </a>
+<div class="edit-page">
+  <div class="page-header">
+    <a routerLink="/documents" class="back-link">
+      <span aria-hidden="true">←</span>
+      Back to Documents
+    </a>
 
-  <h2>Edit Document</h2>
-
-  @if (isLoading()) {
-
-  <p>Loading document...</p>
-
-  }
-
-  @if (errorMessage()) {
-
-  <p class="error-message">
-    {{ errorMessage() }}
-  </p>
-
-  }
-
-  @if (!isLoading() && document(); as doc) {
-
-  <div class="edit-card">
-
-    <p>
-      <strong>Document ID:</strong>
-      {{ doc.id }}
+    <span class="page-eyebrow">YOUR LIBRARY</span>
+    <h1>Edit Document</h1>
+    <p class="page-description">
+      Update the title of your document. Your original file will remain unchanged.
     </p>
-
-    <p>
-      <strong>File:</strong>
-      {{ doc.fileName }}
-    </p>
-
-    <label for="title">
-      Document Title
-    </label>
-
-    <input id="title"
-           type="text"
-           [(ngModel)]="title"
-           maxlength="200"
-           placeholder="Enter document title" />
-
-    <p>
-      Current title:
-      {{ title }}
-    </p>
-
-    <button type="button"
-            (click)="saveChanges()"
-            [disabled]="isSaving()">
-      {{ isSaving() ? 'Saving...' : 'Save Changes' }}
-    </button>
-
-    @if (successMessage()) {
-    <p class="success-message">{{ successMessage() }}</p>
-    }
-
-    @if (errorMessage()) {
-    <p class="error-message">{{ errorMessage() }}</p>
-    }
   </div>
 
+  @if (isLoading()) {
+  <section class="state-card" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Loading document...</p>
+  </section>
+  } @else if (document(); as doc) {
+  <article class="edit-card">
+    <div class="card-heading">
+      <div class="file-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 3.75h8l4 4v12.5H6z"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linejoin="round" />
+          <path d="M14 3.75v4h4M9 12h6M9 15.5h6"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <div class="card-heading-text">
+        <span class="section-label">DOCUMENT #{{ doc.id }}</span>
+        <h2>Update document title</h2>
+        <p>Change how this document appears in your library.</p>
+      </div>
+    </div>
+
+    <div class="document-info">
+      <span class="information-label">Original file</span>
+      <span class="file-name">{{ doc.fileName }}</span>
+    </div>
+
+    <form class="edit-form" (ngSubmit)="saveChanges()">
+      <div class="form-field">
+        <label for="title">Document title</label>
+        <input id="title"
+               name="title"
+               type="text"
+               [(ngModel)]="title"
+               maxlength="200"
+               placeholder="Enter document title"
+               autocomplete="off"
+               [disabled]="isSaving()"
+               required />
+
+        <div class="field-hint">
+          <span>Choose a clear title that helps you find this document.</span>
+          <span>{{ title.length }}/200</span>
+        </div>
+      </div>
+
+      <div class="preview-panel">
+        <span class="preview-label">TITLE PREVIEW</span>
+        <p>{{ title.trim() || 'Your document title will appear here' }}</p>
+      </div>
+
+      @if (successMessage()) {
+      <div class="message success-message" role="status">
+        <span class="message-icon" aria-hidden="true">✓</span>
+        <p>{{ successMessage() }}</p>
+      </div>
+      }
+
+      @if (errorMessage()) {
+      <div class="message error-message" role="alert">
+        <span class="message-icon" aria-hidden="true">!</span>
+        <p>{{ errorMessage() }}</p>
+      </div>
+      }
+
+      <div class="form-actions">
+        <a routerLink="/documents" class="button button-secondary">
+          Cancel
+        </a>
+
+        <button type="submit"
+                class="button button-primary"
+                [disabled]="isSaving()">
+          {{ isSaving() ? 'Saving changes...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
+  </article>
+  } @else if (errorMessage()) {
+  <div class="message error-message" role="alert">
+    <span class="message-icon" aria-hidden="true">!</span>
+    <p>{{ errorMessage() }}</p>
+  </div>
   }
 
+  <p class="page-footer">
+    Smart Knowledge Hub · Keep your knowledge organized.
+  </p>
 </div>

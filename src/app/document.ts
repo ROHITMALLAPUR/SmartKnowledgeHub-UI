@@ -35,4 +35,21 @@ export class DocumentService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
+  getDocumentFile(id: number): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/${id}/file`,
+      {
+        responseType: 'blob'
+      }
+    );
+  }
+
+  downloadDocument(id: number): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/${id}/file`,
+      {
+        responseType: 'blob'
+      }
+    );
+  }
 }

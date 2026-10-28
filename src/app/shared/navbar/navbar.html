@@ -1,23 +1,25 @@
-<nav class="navbar">
 
-  <div class="navbar-brand">
-    Smart Knowledge Hub
-  </div>
+<nav class="navbar">
+  <a class="navbar-brand" routerLink="/dashboard" aria-label="Smart Knowledge Hub home">
+    <span class="brand-icon" aria-hidden="true">K</span>
+
+    <span class="brand-text">
+      Smart Knowledge
+      <span class="brand-highlight">Hub</span>
+    </span>
+  </a>
 
   <div class="navbar-links">
-
-    <a routerLink="/dashboard">
+    <a routerLink="/dashboard" routerLinkActive="active">
       Dashboard
     </a>
 
-    <a routerLink="/documents">
+    <a routerLink="/documents" routerLinkActive="active">
       Documents
     </a>
 
-    <button type="button" (click)="logout()">
+    <button class="logout-button" type="button" (click)="logout()">
       Logout
     </button>
-
   </div>
-
 </nav>

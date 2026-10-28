@@ -1,17 +1,18 @@
+
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router,RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { DocumentService } from '../document';
 import { DocumentResponse } from '../document.model';
 
 @Component({
   selector: 'app-document-edit',
-  imports: [FormsModule,RouterLink],
+  imports: [FormsModule, RouterLink],
   templateUrl: './document-edit.html',
-  styleUrl: './document-edit.css'
+  styleUrl: './document-edit.css',
 })
 export class DocumentEdit implements OnInit {
-
   documentId = 0;
 
   document = signal<DocumentResponse | null>(null);
@@ -19,11 +20,9 @@ export class DocumentEdit implements OnInit {
   title = '';
 
   isLoading = signal(true);
-
   isSaving = signal(false);
 
   errorMessage = signal('');
-
   successMessage = signal('');
 
   constructor(
@@ -33,7 +32,6 @@ export class DocumentEdit implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
@@ -42,58 +40,52 @@ export class DocumentEdit implements OnInit {
       return;
     }
 
-    this.documentId = Number(id);
+    const parsedId = Number(id);
 
-    console.log('Edit document ID:', this.documentId);
+    if (!Number.isInteger(parsedId) || parsedId <= 0) {
+      this.errorMessage.set('Invalid document ID.');
+      this.isLoading.set(false);
+      return;
+    }
 
+    this.documentId = parsedId;
     this.loadDocument();
   }
 
   loadDocument(): void {
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
-    this.documentService
-      .getDocumentById(this.documentId)
-      .subscribe({
-
-        next: (response) => {
-
-          console.log('Document received for editing:', response);
-
-          this.document.set(response);
-
-          this.title = response.title;
-
-          this.isLoading.set(false);
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Error loading document for editing:',
-            error
-          );
-
-          this.errorMessage.set(
-            'Unable to load document.'
-          );
-
-          this.isLoading.set(false);
-        }
-
-      });
+    this.documentService.getDocumentById(this.documentId).subscribe({
+      next: (response) => {
+        this.document.set(response);
+        this.title = response.title;
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading document for editing:', error);
+        this.errorMessage.set('Unable to load document.');
+        this.isLoading.set(false);
+      },
+    });
   }
 
-
   saveChanges(): void {
+    if (this.isSaving()) {
+      return;
+    }
+
     const updatedTitle = this.title.trim();
 
     if (!updatedTitle) {
       this.errorMessage.set('Document title is required.');
+      this.successMessage.set('');
       return;
     }
 
     if (updatedTitle.length > 200) {
       this.errorMessage.set('Document title cannot exceed 200 characters.');
+      this.successMessage.set('');
       return;
     }
 
@@ -109,15 +101,14 @@ export class DocumentEdit implements OnInit {
         this.isSaving.set(false);
         this.successMessage.set('Document updated successfully.');
 
-        // Return to the document list after a successful update.
+        // Preserve the existing behavior: return to the document list.
         this.router.navigate(['/documents']);
       },
       error: (error) => {
         console.error('Error updating document:', error);
         this.isSaving.set(false);
-        this.errorMessage.set('Unable to update document.');
-      }
+        this.errorMessage.set('Unable to update document. Please try again.');
+      },
     });
   }
-
 }
